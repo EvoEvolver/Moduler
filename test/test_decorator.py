@@ -1,10 +1,10 @@
-from moduler.core import get_module_members
+from moduler.core import build_module_tree
 from utils import to_dict
 
 
 def test_decorator():
     import testing_module_decorator
-    struct = get_module_members(testing_module_decorator)
+    struct = build_module_tree(testing_module_decorator)
     actual = to_dict(struct)
     expected = {'children': [{'children': [{'children': [{'name': 'summation',
                                                           'struct_type': 'function'}],

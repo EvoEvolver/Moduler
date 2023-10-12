@@ -1,10 +1,10 @@
-from moduler.core import get_module_members
+from moduler.core import build_module_tree
 from utils import to_dict
 
 
 def test_section():
     import testing_module_multi
-    struct = get_module_members(testing_module_multi)
+    struct = build_module_tree(testing_module_multi)
     actual = to_dict(struct)
     expected = {'struct_type': 'module', 'name': 'testing_module_multi', 'children': [
         {'struct_type': 'section', 'name': 'first section', 'children': [

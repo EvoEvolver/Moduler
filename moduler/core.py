@@ -12,7 +12,7 @@ from moduler import Struct
 from moduler.comment_parser import prepare_raw_comment_struct, parse_raw_comments
 
 
-def get_module_members(module) -> Struct:
+def build_module_tree(module) -> Struct:
     root_path = module.__file__.split("__init__.py")[0]
     module_struct, sub_modules = extract_module_tree_without_comment(module, root_path)
     sub_modules: Dict[str, Struct] | List[Struct]
@@ -239,7 +239,7 @@ def process_sub_modules(sub_modules, root_struct: Struct):
             elif isinstance(sub_module, str):
                 root_struct.children.append(Struct("comment", sub_module, None, None))
             elif sub_module is not None:
-                root_struct.children.append(get_module_members(sub_module))
+                root_struct.children.append(build_module_tree(sub_module))
     elif isinstance(sub_modules, dict):
         for title, sub_module_list in sub_modules.items():
             if root_struct.struct_type == "section":
@@ -258,7 +258,6 @@ def process_sub_modules(sub_modules, root_struct: Struct):
 def add_raw_comments_to_struct(cmt_structs: List[Struct], root_struct: Struct):
     """
     Mix the comment_structs and cls_func_structs into a list of struct
-    Discard the comments inside functions and classes
     :param cmt_structs: The comment_structs
     :param cls_func_structs: The cls_func_structs
     :return: A list of struct sorted by the start line
