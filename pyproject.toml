@@ -4,17 +4,21 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Moduler"
-description = "Intelligence-boosting annotation system"
+description = "Annotation system for boosting intelligence"
 version = "0.1.0"
 authors = [
     { name = "Zijian Zhang" }
 ]
 
-dependencies = []
+dependencies = [
+    "pyyaml~=6.0.1",
+]
 
 [project.optional-dependencies]
 dev = [
-    "pytest"
+    "pytest",
+    "plotly==5.16.1",
+    "pyhyphen==4.0.3",
 ]
 
 [tool.setuptools]
