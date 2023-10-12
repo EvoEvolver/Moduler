@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Moduler"
+description = "Intelligence-oriented documentation system"
+version = "0.1.0"
+authors = [
+    { name = "Zijian Zhang" }
+]
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest"
+]
+
+[tool.setuptools]
+packages = ["moduler"]
