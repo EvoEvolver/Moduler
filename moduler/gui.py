@@ -1,5 +1,19 @@
 from moduler import Struct
 import plotly.graph_objects as go
+import inspect
+from moduler.core import build_module_tree
+
+def draw_module_tree():
+    # Get current module by inspecting the stack
+    frame = inspect.stack()[1]
+    module = inspect.getmodule(frame[0])
+    struct = build_module_tree(module)
+    draw_treemap(struct)
+
+
+"""
+## Draw treemap
+"""
 
 def draw_treemap(struct: Struct):
     ids, labels, parents, texts = extract_tree_ingredients(struct)
@@ -97,7 +111,6 @@ def hypenate_texts(texts: str, line_width=40):
 
 
 if __name__ == '__main__':
-    from moduler.core import build_module_tree
     import moduler
     struct = build_module_tree(moduler)
     draw_treemap(struct)

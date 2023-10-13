@@ -138,6 +138,11 @@ def buggy_foo():
     foo(a=b)
 ```
 
+## Visualize your codebase
+
+You can put the function `draw_module_tree()` in any of your modules to visualize the tree structure of it. Call it in the `__init__.py` of your package is recommended.
+
+
 ## Installation
 
 You can install Moduler by
