@@ -11,7 +11,7 @@ function get_md_files_names_in_path(path: string) {
 }
 
 export default defineUserConfig({
-    repo: 'EvoEvolver/EvoNote',
+    repo: 'EvoEvolver/Moduler',
     docsDir: 'docs',
     head: [['link', { rel: 'icon', href: '/image/favicon.ico' }]],
     // @ts-ignore

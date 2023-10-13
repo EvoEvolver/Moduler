@@ -110,7 +110,6 @@ from moduler.decorator import example
 @example
 def how_to_use_foo():
     """
-    # Example
     The following is an example of using `foo()`.
     """
     foo()
@@ -127,7 +126,6 @@ from moduler.decorator import todo
 @todo
 def todo_foo():
     """
-    # Todo
     The following is a todo.
     """
     foo()
@@ -140,7 +138,7 @@ def buggy_foo():
 
 ## Visualize your codebase
 
-You can put the function `draw_module_tree()` in any of your modules to visualize the tree structure of it. Call it in the `__init__.py` of your package is recommended.
+You can put the function `draw_module_tree()` in any of your modules to visualize the tree structure generated from it. Call it in the `__init__.py` of your package is recommended.
 
 
 ## Installation

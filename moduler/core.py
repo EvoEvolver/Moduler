@@ -84,7 +84,11 @@ def extract_module_tree_without_comment(module, root_path):
 
     for i, member in enumerate(true_members):
         name = true_member_names[i]
-        pos = get_member_pos(member)
+        try:
+            pos = get_member_pos(member)
+        except Exception as e:
+            print(e)
+            continue
         parent_struct = module_struct
         # check decorators
         if hasattr(member, "__moduler_todo"):
@@ -178,19 +182,22 @@ def extract_class_struct_without_comment(class_struct, class_):
             continue
         type_str = str(type(member))
         # check whether member is a function
-        if type_str == "<class 'function'>":
-            pos = get_member_pos(member)
-            # check whether the function is from parent class
-            if member.__qualname__.split(".")[0] != class_.__name__:
-                continue
-            class_struct.children.append(Struct("function", member, pos, name))
-        # Add classmethods
-        elif type_str == "<class 'mappingproxy'>":
-            for sub_name, sub_member in member.items():
-                if isinstance(sub_member, classmethod):
-                    pos = get_member_pos(sub_member)
-                    class_struct.children.append(
-                        Struct("function", sub_member, pos, name))
+        try:
+            if type_str == "<class 'function'>":
+                pos = get_member_pos(member)
+                # check whether the function is from parent class
+                if member.__qualname__.split(".")[0] != class_.__name__:
+                    continue
+                class_struct.children.append(Struct("function", member, pos, name))
+            # Add classmethods
+            elif type_str == "<class 'mappingproxy'>":
+                for sub_name, sub_member in member.items():
+                    if isinstance(sub_member, classmethod):
+                        pos = get_member_pos(sub_member)
+                        class_struct.children.append(
+                            Struct("function", sub_member, pos, name))
+        except Exception as e:
+            print(e)
 
 
 def build_section_tree(root_struct: Struct):
