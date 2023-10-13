@@ -1,11 +1,12 @@
-# Moduler - Documentation just in your Python code
+# Moduler
 
-Moduler is a standard for putting documentation just in your Python code. It is proposed to provide another option
-other than the current standard of putting documentation in a separate file. Though it is not new to mix documentation
-with code, in Moduler, you can also do
+Moduler helps make the skeletons of your Python project more readable by making it **sparse** and **meta-annotated**.
 
-- Adding sections to your functions and classes
-- Adding examples to your functions and classes
+In Moduler, you can
+- Add sections to your functions, classes and modules.
+- Add semantic annotation to your codes. This includes
+  - Add examples to your existing codes
+  - Add todos for incomplete codes
 
 We believe in this way we can provide much more context information to new contributors who are not familiar with the
 codebase. It is also important for AI-based agents to understand the codebase and develop it.
@@ -137,12 +138,15 @@ def buggy_foo():
     foo(a=b)
 ```
 
+## Installation
+
+You can install Moduler by
+```shell
+pip install git+https://github.com/EvoEvolver/Moduler.git
+```
+
 
 ## Philosophy behind Moduler
-
-### Literate programming
-
-Moduler can be regarded as an effort toward the idea - [literate programming](https://guides.nyu.edu/datascience/literate-prog). We think literate programming gets even more important in the era of AI for it provides more context information for AI-based agents to understand the codebase.
 
 ### Sparse tree structure
 
@@ -153,10 +157,9 @@ structure.
 
 Moduler helps this by adding a zero-cost way to add sections to your functions and classes. It makes another step
 towards a more tree-like structure of the codebase. We believe this will help the programmers to understand the codebase
-better. See [Method of Loci](https://evonote.org/writings/2.1%20Method%20of%20Loci%20and%20sparsity.html) for more details.
+better.
 
+### Literate programming
 
-## EvoNote
+Moduler can be regarded as an effort toward the idea - [literate programming](https://guides.nyu.edu/datascience/literate-prog). We think literate programming gets even more important in the era of AI for it provides more context information for AI-based agents to understand the codebase.
 
-EvoNote is using Moduler to document its codebase. You can have a good visualization of EvoNote's codebase by
-running [EvoNote visualization](https://evonote.org/html/project_tree.html).
