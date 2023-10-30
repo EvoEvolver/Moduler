@@ -17,7 +17,7 @@ def draw_module_tree():
 
 def draw_treemap(struct: Struct):
     ids, labels, parents, texts = extract_tree_ingredients(struct)
-
+    texts = [hypenate_texts(text) for text in texts]
     fig = go.Figure(go.Treemap(
         labels=labels,
         parents=parents,
@@ -78,6 +78,12 @@ def add_ingredients_to_lists(root: Struct, root_path: str, root_idx: int, labels
         elif child.struct_type == "function":
             texts.append("")
             add_ingredients_to_lists(child, child_path, len(texts)-1, labels, parents, texts, ids)
+        elif child.struct_type == "document":
+            texts.append(child.obj)
+            add_ingredients_to_lists(child, child_path, len(texts) - 1, labels, parents,
+                                     texts, ids)
+        else:
+            raise
 
 
 

@@ -36,7 +36,20 @@ def build_module_tree(module) -> Struct:
 
     process_sub_modules(sub_modules, module_struct)
 
+    readme = extract_readme(root_path)
+    if readme is not None:
+        readme_struct = Struct("document", readme, None, "README")
+        module_struct.children.insert(0, readme_struct)
+
     return module_struct
+
+def extract_readme(module_dir):
+    readme_path = os.path.join(module_dir, "README.md")
+    if not os.path.exists(readme_path):
+        return None
+    with open(readme_path, "r") as f:
+        readme = f.read()
+    return readme
 
 
 def extract_module_tree_without_comment(module, root_path):
@@ -238,28 +251,35 @@ def build_section_tree(root_struct: Struct):
     return root_struct
 
 
-def process_sub_modules(sub_modules, root_struct: Struct):
+def process_sub_modules(sub_modules: List | Dict, root_struct: Struct):
     if isinstance(sub_modules, list):
-        for i, sub_module in enumerate(sub_modules):
-            if isinstance(sub_module, dict):
-                process_sub_modules(sub_module, root_struct)
-            elif isinstance(sub_module, str):
-                root_struct.children.append(Struct("comment", sub_module, None, None))
-            elif sub_module is not None:
-                root_struct.children.append(build_module_tree(sub_module))
+        process_sub_modules_in_list(root_struct, sub_modules)
     elif isinstance(sub_modules, dict):
-        for title, sub_module_list in sub_modules.items():
-            if root_struct.struct_type == "section":
-                new_level = root_struct.obj[1] + 1
-                new_section = Struct("section", (title, new_level), None, title)
-                process_sub_modules(sub_module_list, new_section)
-            else:
-                new_section = Struct("section", (title, 1), None, title)
-                process_sub_modules(sub_module_list, new_section)
-            root_struct.children.append(new_section)
+        process_sub_modules_in_dict(root_struct, sub_modules)
     else:
         assert False
 
+
+def process_sub_modules_in_list(root_struct: Struct, sub_modules: List):
+    for i, sub_module in enumerate(sub_modules):
+        if isinstance(sub_module, dict):
+            process_sub_modules(sub_module, root_struct)
+        elif isinstance(sub_module, str):
+            root_struct.children.append(Struct("comment", sub_module, None, None))
+        elif sub_module is not None:
+            root_struct.children.append(build_module_tree(sub_module))
+
+
+def process_sub_modules_in_dict(root_struct: Struct, sub_modules: Dict):
+    for title, sub_module_list in sub_modules.items():
+        if root_struct.struct_type == "section":
+            new_level = root_struct.obj[1] + 1
+            new_section = Struct("section", (title, new_level), None, title)
+            process_sub_modules(sub_module_list, new_section)
+        else:
+            new_section = Struct("section", (title, 1), None, title)
+            process_sub_modules(sub_module_list, new_section)
+        root_struct.children.append(new_section)
 
 
 def add_raw_comments_to_struct(cmt_structs: List[Struct], root_struct: Struct):

@@ -3,7 +3,7 @@
 Moduler helps make the skeletons of your Python project more readable by making it **sparse** and **meta-annotated**.
 
 In Moduler, you can
-- Add sections to your functions, classes and modules.
+- Add sections to your functions, classes and modules without refactoring
 - Add semantic annotation to your codes. This includes
   - Add examples to your existing codes
   - Add todos for incomplete codes
