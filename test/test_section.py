@@ -20,7 +20,7 @@ def test_section():
                                         {'struct_type': 'section', 'name': 'Section 4',
                                          'children': [{'struct_type': 'comment',
                                                        'obj': 'A little bit content'}]}]}]},
-                      {'struct_type': 'section', 'name': 'Section 5',
-                       'children': [{'struct_type': 'comment', 'obj': 'Good bye'}]}]}]}
+                      ]}, {'struct_type': 'section', 'name': 'Section 5',
+                           'children': [{'struct_type': 'comment', 'obj': 'Good bye'}]}]}
 
     assert actual == expected
