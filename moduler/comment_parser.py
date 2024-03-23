@@ -10,7 +10,7 @@ This module is for parse and extract comments
 """
 
 # three_quote_pattern is multi-line comment pattern
-three_quote_pattern = re.compile(r'(^|\n)\s*?"""([^(""")]*?)"""', re.DOTALL)
+three_quote_pattern = re.compile(r'(^|\n)\s*?"""(?!""")((.|\s)*?)"""', re.DOTALL)
 
 
 def prepare_raw_comment_struct(parent_src: str) -> List[Struct]:
