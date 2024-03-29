@@ -19,7 +19,7 @@ def prepare_raw_comment_struct(parent_src: str) -> List[Struct]:
     comment_struct_list = []
     matches = three_quote_pattern.finditer(parent_src)
     for match in matches:
-        comment_content = match.group(2)
+        comment_content = match.group(1)
         start = match.group(1)
         start_pos, end_pos = match.span()
         start_pos += len(start)
