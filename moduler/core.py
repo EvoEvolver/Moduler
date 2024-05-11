@@ -149,9 +149,9 @@ def extract_module_members(module, root_path):
     for name in dir(module):
         member = module.__dict__[name]
         # check the type of the member is in module, class, method, function
-        if (str(type(member)) not in ["<class 'type'>",
-                                      "<class 'function'>"]):
+        if not inspect.isclass(member) and not inspect.isfunction(member):
             continue
+
         if isinstance(member, BuiltinFunctionType):
             continue
 
