@@ -4,30 +4,38 @@ import re
 from typing import List
 
 from moduler import Struct
+import ast
+from typing import Union
 
 """
 This module is for parse and extract comments
 """
 
-# three_quote_pattern is multi-line comment pattern
-three_quote_pattern = re.compile(r'"""(?!""")((.|\s)*?)"""', re.DOTALL)
+def extract_comments(root_node: Union[ast.Module, ast.ClassDef]):
+    res = []
+    string_nodes = []
+    class_nodes = []
+    for node in root_node.body:
+        if isinstance(node, ast.Expr) and isinstance(node.value, ast.Str):
+            string_nodes.append(node)
+            res.append(node)
+        elif isinstance(node, ast.ClassDef):
+            class_nodes.append(node)
+            class_res = extract_comments(node)
+            res.extend(class_res)
+    return res
+
+def extract_comments_from_str(src: str):
+    tree = ast.parse(src)
+    return extract_comments(tree)
 
 
 def prepare_raw_comment_struct(parent_src: str) -> List[Struct]:
-    min_pos_for_line = get_min_pos_for_line(parent_src)
-    min_line_no = 1
+    nodes = extract_comments_from_str(parent_src)
     comment_struct_list = []
-    matches = three_quote_pattern.finditer(parent_src)
-    for match in matches:
-        comment_content = match.group(1)
-        start = match.group(1)
-        start_pos, end_pos = match.span()
-        start_pos += len(start)
-        start_line_no = find_line_no(start_pos, min_line_no, min_pos_for_line)
-        end_line_no = find_line_no(end_pos, start_line_no, min_pos_for_line)
-        min_line_no = end_line_no
-        comment_pos = (start_line_no, end_line_no)
-        comment_struct_list.append(Struct("raw_comment", comment_content, comment_pos))
+    for node in nodes:
+        comment_pos = (node.lineno, node.end_lineno)
+        comment_struct_list.append(Struct("raw_comment", node.value.s, comment_pos))
     return comment_struct_list
 
 
